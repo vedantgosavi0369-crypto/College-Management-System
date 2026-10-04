@@ -2,12 +2,11 @@
 import React, { useState } from "react";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { useCMSData } from "@/lib/store";
 import { useSession } from "@/lib/session-context";
 import { STATUS_COLORS } from "@/lib/utils";
-import { CheckCircle2, GraduationCap, Wrench, Check, Clock, AlertCircle } from "lucide-react";
+import { CheckCircle2, GraduationCap, Wrench } from "lucide-react";
 
 export default function PrincipalEscalationsPage() {
   const { user } = useSession();

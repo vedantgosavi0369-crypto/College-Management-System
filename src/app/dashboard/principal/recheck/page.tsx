@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { useCMSData } from "@/lib/store";
 import { useSession } from "@/lib/session-context";
@@ -98,7 +97,7 @@ export default function PrincipalRecheckPage() {
                         Student Explanation
                       </p>
                       <p className="text-xs text-slate-800 dark:text-[#cccccc] leading-relaxed">
-                        "{req.reason}"
+                        &quot;{req.reason}&quot;
                       </p>
                       {req.proofUrl && (
                         <div className="pt-2 flex items-center gap-1.5 text-xs font-medium text-[#065fd4] dark:text-[#3ea6ff]">

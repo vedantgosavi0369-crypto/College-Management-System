@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
@@ -15,18 +15,14 @@ function StudentRecheckContent() {
   const { user } = useSession();
   const { recheckRequests, addRecheckRequest } = useCMSData();
 
-  const [subject, setSubject] = useState(ATTENDANCE_SUMMARY[0]?.subject || "Data Structures and Applications");
-  const [date, setDate] = useState("2026-09-21");
+  const initialSubject = searchParams.get("subject") || ATTENDANCE_SUMMARY[0]?.subject || "Data Structures and Applications";
+  const initialDate = searchParams.get("date") || "2026-09-21";
+
+  const [subject, setSubject] = useState(initialSubject);
+  const [date, setDate] = useState(initialDate);
   const [reason, setReason] = useState("");
   const [proofFileName, setProofFileName] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
-
-  useEffect(() => {
-    const s = searchParams.get("subject");
-    const d = searchParams.get("date");
-    if (s) setSubject(s);
-    if (d) setDate(d);
-  }, [searchParams]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

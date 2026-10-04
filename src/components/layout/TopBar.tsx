@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useSyncExternalStore } from "react";
 import { useSession } from "@/lib/session-context";
 import { ROLE_LABELS } from "@/lib/utils";
 import { Menu, Bell, Sun, Moon } from "lucide-react";
@@ -9,18 +9,35 @@ interface TopBarProps {
   onMenuClick: () => void;
 }
 
+const themeListeners = new Set<() => void>();
+function notifyThemeListeners() {
+  for (const listener of themeListeners) {
+    listener();
+  }
+}
+
+function subscribeTheme(callback: () => void) {
+  themeListeners.add(callback);
+  return () => {
+    themeListeners.delete(callback);
+  };
+}
+
+function getThemeSnapshot(): boolean {
+  if (typeof document === "undefined") return false;
+  return document.documentElement.classList.contains("dark");
+}
+
+function getServerThemeSnapshot(): boolean {
+  return false;
+}
+
 export function TopBar({ title, onMenuClick }: TopBarProps) {
   const { user } = useSession();
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    const isDarkMode = document.documentElement.classList.contains("dark");
-    setIsDark(isDarkMode);
-  }, []);
+  const isDark = useSyncExternalStore(subscribeTheme, getThemeSnapshot, getServerThemeSnapshot);
 
   const toggleTheme = () => {
     const nextDark = !isDark;
-    setIsDark(nextDark);
     if (nextDark) {
       document.documentElement.classList.add("dark");
       localStorage.setItem("cms_theme", "dark");
@@ -28,6 +45,7 @@ export function TopBar({ title, onMenuClick }: TopBarProps) {
       document.documentElement.classList.remove("dark");
       localStorage.setItem("cms_theme", "light");
     }
+    notifyThemeListeners();
   };
 
   return (

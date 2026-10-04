@@ -2,13 +2,13 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
+import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { useCMSData } from "@/lib/store";
 import { useSession } from "@/lib/session-context";
 import { formatDateTime } from "@/lib/utils";
-import { DoorOpen, UserCheck, Search, AlertTriangle, Key, Zap, ShieldAlert, ArrowUpRight } from "lucide-react";
+import { DoorOpen, UserCheck, Search, AlertTriangle, Key, Zap, ShieldAlert } from "lucide-react";
 
 type Tab = "gate" | "visitor" | "lostfound" | "keys";
 

@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { useCMSData } from "@/lib/store";
 import { useSession } from "@/lib/session-context";
-import { STATUS_COLORS, formatDate } from "@/lib/utils";
+import { STATUS_COLORS } from "@/lib/utils";
 import { EscalationCategory } from "@/lib/types";
 import {
   Zap,

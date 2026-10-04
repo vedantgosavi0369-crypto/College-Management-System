@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { useCMSData } from "@/lib/store";
 import { useSession } from "@/lib/session-context";
-import { Plus, CheckCircle2, PackageCheck, Search } from "lucide-react";
+import { Plus, CheckCircle2, PackageCheck } from "lucide-react";
 
 export default function WatchmanLostFoundPage() {
   const { user } = useSession();

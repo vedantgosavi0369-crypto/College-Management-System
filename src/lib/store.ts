@@ -1,8 +1,7 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useSyncExternalStore } from "react";
 import {
   User,
-  AttendanceRecord,
   RecheckRequest,
   Escalation,
   Notice,
@@ -126,7 +125,7 @@ export const CLASS_ROSTER_60: ClassStudent[] = [
   { rollNo: "CSE031", name: "Pooja Hegde", email: "pooja@cms.edu", currentAttendancePercent: 84.0 },
   { rollNo: "CSE032", name: "Rahul Soni", email: "rahul.s@cms.edu", currentAttendancePercent: 77.2 },
   { rollNo: "CSE033", name: "Rajat Mishra", email: "rajat@cms.edu", currentAttendancePercent: 82.0 },
-  { rollNo: "CSE034", name: "Riya Sharma", email: "student@cms.edu", currentAttendancePercent: 75.1 }, // demo student
+  { rollNo: "CSE034", name: "Riya Sharma", email: "student@cms.edu", currentAttendancePercent: 75.1 },
   { rollNo: "CSE035", name: "Rohan Kulkarni", email: "rohan@cms.edu", currentAttendancePercent: 63.8 },
   { rollNo: "CSE036", name: "Rohit Chauhan", email: "rohit.c@cms.edu", currentAttendancePercent: 79.0 },
   { rollNo: "CSE037", name: "Sakshi Agarwal", email: "sakshi@cms.edu", currentAttendancePercent: 90.5 },
@@ -155,63 +154,84 @@ export const CLASS_ROSTER_60: ClassStudent[] = [
   { rollNo: "CSE060", name: "Zoya Farooqui", email: "zoya@cms.edu", currentAttendancePercent: 91.4 },
 ];
 
+const storeCache: Record<string, unknown> = {};
+const storeListeners = new Set<() => void>();
+
+function notifyStoreListeners() {
+  for (const listener of storeListeners) {
+    listener();
+  }
+}
+
 function getStored<T>(key: string, fallback: T): T {
   if (typeof window === "undefined") return fallback;
+  if (key in storeCache) return storeCache[key] as T;
   try {
     const item = localStorage.getItem(key);
-    return item ? JSON.parse(item) : fallback;
+    const parsed = item ? JSON.parse(item) : fallback;
+    storeCache[key] = parsed;
+    return parsed;
   } catch {
+    storeCache[key] = fallback;
     return fallback;
   }
 }
 
 function setStored<T>(key: string, value: T): void {
-  if (typeof window === "undefined") return;
-  try {
-    localStorage.setItem(key, JSON.stringify(value));
-    window.dispatchEvent(new Event("cms-storage-update"));
-  } catch (err) {
-    console.error("Storage save failed", err);
+  storeCache[key] = value;
+  if (typeof window !== "undefined") {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+      window.dispatchEvent(new Event("cms-storage-update"));
+    } catch (err) {
+      console.error("Storage save failed", err);
+    }
   }
+  notifyStoreListeners();
+}
+
+function subscribeStore(callback: () => void) {
+  storeListeners.add(callback);
+  const handleStorage = () => {
+    for (const key of Object.keys(storeCache)) {
+      try {
+        const item = localStorage.getItem(key);
+        if (item) storeCache[key] = JSON.parse(item);
+      } catch {
+        // ignore
+      }
+    }
+    callback();
+  };
+  window.addEventListener("cms-storage-update", callback);
+  window.addEventListener("storage", handleStorage);
+  return () => {
+    storeListeners.delete(callback);
+    window.removeEventListener("cms-storage-update", callback);
+    window.removeEventListener("storage", handleStorage);
+  };
+}
+
+function useStoredItem<T>(key: string, fallback: T): T {
+  return useSyncExternalStore(
+    subscribeStore,
+    () => getStored<T>(key, fallback),
+    () => fallback
+  );
 }
 
 export function useCMSData() {
-  const [recheckRequests, setRecheckRequestsState] = useState<RecheckRequest[]>([]);
-  const [escalations, setEscalationsState] = useState<Escalation[]>([]);
-  const [labIssues, setLabIssuesState] = useState<LabIssue[]>([]);
-  const [notices, setNoticesState] = useState<Notice[]>([]);
-  const [gateEntries, setGateEntriesState] = useState<GateEntry[]>([]);
-  const [visitorEntries, setVisitorEntriesState] = useState<VisitorEntry[]>([]);
-  const [lostFoundEntries, setLostFoundEntriesState] = useState<LostFoundEntry[]>([]);
-  const [keyEntries, setKeyEntriesState] = useState<KeyEntry[]>([]);
-  const [users, setUsersState] = useState<User[]>([]);
-  const [auditLog, setAuditLogState] = useState<AuditLogEntry[]>([]);
-  const [attendanceRecords, setAttendanceRecordsState] = useState<AttendanceRecord[]>([]);
-
-  const reloadData = () => {
-    setRecheckRequestsState(getStored("cms_recheck_requests", MOCK_RECHECK_REQUESTS));
-    setEscalationsState(getStored("cms_escalations", MOCK_ESCALATIONS));
-    setLabIssuesState(getStored("cms_lab_issues", MOCK_LAB_ISSUES));
-    setNoticesState(getStored("cms_notices", MOCK_NOTICES));
-    setGateEntriesState(getStored("cms_gate_entries", MOCK_GATE_ENTRIES));
-    setVisitorEntriesState(getStored("cms_visitor_entries", MOCK_VISITOR_ENTRIES));
-    setLostFoundEntriesState(getStored("cms_lostfound_entries", MOCK_LOSTFOUND_ENTRIES));
-    setKeyEntriesState(getStored("cms_key_entries", MOCK_KEY_ENTRIES));
-    setUsersState(getStored("cms_users", MOCK_USERS));
-    setAuditLogState(getStored("cms_audit_log", INITIAL_AUDIT_LOG));
-    setAttendanceRecordsState(getStored("cms_attendance_records", MOCK_ATTENDANCE));
-  };
-
-  useEffect(() => {
-    reloadData();
-    const handleUpdate = () => reloadData();
-    window.addEventListener("cms-storage-update", handleUpdate);
-    window.addEventListener("storage", handleUpdate);
-    return () => {
-      window.removeEventListener("cms-storage-update", handleUpdate);
-      window.removeEventListener("storage", handleUpdate);
-    };
-  }, []);
+  const recheckRequests = useStoredItem("cms_recheck_requests", MOCK_RECHECK_REQUESTS);
+  const escalations = useStoredItem("cms_escalations", MOCK_ESCALATIONS);
+  const labIssues = useStoredItem("cms_lab_issues", MOCK_LAB_ISSUES);
+  const notices = useStoredItem("cms_notices", MOCK_NOTICES);
+  const gateEntries = useStoredItem("cms_gate_entries", MOCK_GATE_ENTRIES);
+  const visitorEntries = useStoredItem("cms_visitor_entries", MOCK_VISITOR_ENTRIES);
+  const lostFoundEntries = useStoredItem("cms_lostfound_entries", MOCK_LOSTFOUND_ENTRIES);
+  const keyEntries = useStoredItem("cms_key_entries", MOCK_KEY_ENTRIES);
+  const users = useStoredItem("cms_users", MOCK_USERS);
+  const auditLog = useStoredItem("cms_audit_log", INITIAL_AUDIT_LOG);
+  const attendanceRecords = useStoredItem("cms_attendance_records", MOCK_ATTENDANCE);
 
   const addAudit = (actor: string, role: Role, action: string, category: AuditLogEntry["category"], details: string) => {
     const current = getStored("cms_audit_log", INITIAL_AUDIT_LOG);

@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { ATTENDANCE_SUMMARY } from "@/lib/mock-data";
 import { AlertTriangle, CheckCircle2, ArrowUpRight } from "lucide-react";

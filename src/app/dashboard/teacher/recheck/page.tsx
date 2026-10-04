@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
+import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { useCMSData } from "@/lib/store";
 import { useSession } from "@/lib/session-context";
@@ -118,7 +118,7 @@ export default function TeacherRecheckPage() {
                         Student Grievance & Attached Evidence
                       </p>
                       <p className="text-xs text-slate-800 dark:text-[#cccccc] leading-relaxed">
-                        "{req.reason}"
+                        &quot;{req.reason}&quot;
                       </p>
                       {req.proofUrl && (
                         <div className="flex items-center gap-1.5 pt-2 text-xs font-semibold text-[#065fd4] dark:text-[#3ea6ff]">

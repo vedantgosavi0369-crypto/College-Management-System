@@ -3,8 +3,6 @@ import React from "react";
 import Link from "next/link";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
 import { useCMSData } from "@/lib/store";
 import { useSession } from "@/lib/session-context";
 import { formatDateTime, STATUS_COLORS } from "@/lib/utils";
@@ -77,7 +75,7 @@ export default function PrincipalDashboard() {
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-semibold text-slate-900 dark:text-[#f1f1f1]">{req.studentName}</p>
                           <p className="text-xs text-slate-500 dark:text-[#aaaaaa] mt-0.5">{req.subject} &middot; {req.date}</p>
-                          <p className="text-sm text-slate-700 dark:text-[#cccccc] mt-2 line-clamp-2">"{req.reason}"</p>
+                          <p className="text-sm text-slate-700 dark:text-[#cccccc] mt-2 line-clamp-2">&quot;{req.reason}&quot;</p>
                           {req.teacherComment && (
                             <div className="mt-3 bg-[#e8f0fe] dark:bg-[#e8f0fe]/10 px-3 py-2 rounded text-xs text-[#065fd4] dark:text-[#8ab4f8]">
                               <span className="font-semibold">Faculty:</span> {req.teacherComment}

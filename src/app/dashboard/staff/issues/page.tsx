@@ -5,12 +5,10 @@ import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { useCMSData } from "@/lib/store";
-import { useSession } from "@/lib/session-context";
 import { STATUS_COLORS } from "@/lib/utils";
 import { Plus, Camera } from "lucide-react";
 
 export default function StaffIssuesPage() {
-  const { user } = useSession();
   const { labIssues } = useCMSData();
   const [filter, setFilter] = useState<"all" | "pending" | "resolved">("all");
 

@@ -192,7 +192,7 @@ export default function TeacherDashboard() {
                             <p className="text-sm font-semibold text-slate-900 dark:text-[#f1f1f1]">{req.studentName}</p>
                           </div>
                           <p className="text-xs text-slate-500 dark:text-[#aaaaaa] mb-2">{req.subject} &middot; {req.date}</p>
-                          <p className="text-xs text-slate-600 dark:text-[#cccccc] line-clamp-1">"{req.reason}"</p>
+                          <p className="text-xs text-slate-600 dark:text-[#cccccc] line-clamp-1">&quot;{req.reason}&quot;</p>
                         </div>
                         {req.status === "Pending" && (
                           <Button

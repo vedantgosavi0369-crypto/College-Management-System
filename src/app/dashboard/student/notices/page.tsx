@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { useCMSData } from "@/lib/store";
 import { useSession } from "@/lib/session-context";
-import { Search, AlertTriangle } from "lucide-react";
+import { Search } from "lucide-react";
 
 export default function StudentNoticesPage() {
   const { notices, markNoticeRead } = useCMSData();

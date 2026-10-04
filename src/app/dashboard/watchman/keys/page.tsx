@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { useCMSData } from "@/lib/store";
 import { useSession } from "@/lib/session-context";
-import { KeyRound, CheckCircle2, Check, Clock } from "lucide-react";
+import { KeyRound, CheckCircle2, Check } from "lucide-react";
 
 export default function WatchmanKeysPage() {
   const { user } = useSession();

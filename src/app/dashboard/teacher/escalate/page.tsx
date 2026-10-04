@@ -52,7 +52,7 @@ export default function TeacherEscalatePage() {
             <Card>
               <CardHeader className="pb-3 border-b border-slate-100 dark:border-[#272727]">
                 <CardTitle className="text-sm font-semibold">Submit New Escalation</CardTitle>
-                <p className="text-xs text-slate-500 dark:text-[#aaaaaa] mt-0.5">All submissions are directly routed to the HOD's dashboard.</p>
+                <p className="text-xs text-slate-500 dark:text-[#aaaaaa] mt-0.5">All submissions are directly routed to the HOD&apos;s dashboard.</p>
               </CardHeader>
               <CardContent className="pt-5">
                 {isSuccess && (
