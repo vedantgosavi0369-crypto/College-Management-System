@@ -1,0 +1,166 @@
+@import "tailwindcss";
+
+/* ─── YouTube Design Tokens (Light / White Mode & Dark Mode) ───────── */
+:root {
+  /* YouTube Light / White Mode */
+  --yt-canvas:              #ffffff;
+  --yt-canvas-subtle:       #f9f9f9;
+  --yt-surface:             #ffffff;
+  --yt-surface-card:        #ffffff;
+  --yt-surface-variant:     #f2f2f2;
+  --yt-surface-hover:       #e5e5e5;
+  --yt-surface-active:      #d9d9d9;
+
+  --yt-border:              #e5e5e5;
+  --yt-border-subtle:       #f0f0f0;
+  --yt-border-strong:       #cccccc;
+
+  --yt-text-primary:        #0f0f0f;
+  --yt-text-secondary:      #606060;
+  --yt-text-muted:          #909090;
+  --yt-text-disabled:       #cccccc;
+
+  --yt-brand-red:           #ff0000;
+  --yt-brand-red-hover:     #cc0000;
+  --yt-blue:                #065fd4;
+  --yt-blue-hover:          #0056b3;
+  --yt-blue-light:          #def1ff;
+
+  /* Semantic Badges */
+  --yt-success:             #0f7b44;
+  --yt-success-bg:          #e6f4ea;
+  --yt-warn:                #b06000;
+  --yt-warn-bg:             #fef7e0;
+  --yt-error:               #c5221f;
+  --yt-error-bg:            #fce8e6;
+  --yt-info:                #065fd4;
+  --yt-info-bg:             #e8f0fe;
+
+  /* Scrollbar */
+  --yt-scrollbar-thumb:     #cccccc;
+  --yt-scrollbar-thumb-hover: #909090;
+}
+
+.dark, [data-theme="dark"] {
+  /* YouTube Dark Mode */
+  --yt-canvas:              #0f0f0f;
+  --yt-canvas-subtle:       #0f0f0f;
+  --yt-surface:             #0f0f0f;
+  --yt-surface-card:        #212121;
+  --yt-surface-variant:     #272727;
+  --yt-surface-hover:       #383838;
+  --yt-surface-active:      #4f4f4f;
+
+  --yt-border:              #272727;
+  --yt-border-subtle:       #1f1f1f;
+  --yt-border-strong:       #3f3f3f;
+
+  --yt-text-primary:        #f1f1f1;
+  --yt-text-secondary:      #aaaaaa;
+  --yt-text-muted:          #717171;
+  --yt-text-disabled:       #4d4d4d;
+
+  --yt-brand-red:           #ff0000;
+  --yt-brand-red-hover:     #cc0000;
+  --yt-blue:                #3ea6ff;
+  --yt-blue-hover:          #65b8ff;
+  --yt-blue-light:          rgba(62, 166, 255, 0.15);
+
+  /* Semantic Badges */
+  --yt-success:             #81c995;
+  --yt-success-bg:          rgba(129, 201, 149, 0.15);
+  --yt-warn:                #fdd663;
+  --yt-warn-bg:             rgba(253, 214, 99, 0.15);
+  --yt-error:               #f28b82;
+  --yt-error-bg:            rgba(242, 139, 130, 0.15);
+  --yt-info:                #8ab4f8;
+  --yt-info-bg:             rgba(138, 180, 248, 0.15);
+
+  /* Scrollbar */
+  --yt-scrollbar-thumb:     #717171;
+  --yt-scrollbar-thumb-hover: #aaaaaa;
+}
+
+/* ─── Base Styles ──────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--yt-canvas);
+  color: var(--yt-text-primary);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Custom scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--yt-scrollbar-thumb);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--yt-scrollbar-thumb-hover);
+}
+
+/* ─── Page transition animation ────────────────────────────────── */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.25s ease-out forwards;
+}
+
+/* ─── Card hover effect ─────────────────────────────────────────── */
+.card-hover {
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+.card-hover:hover {
+  box-shadow: 0 4px 16px -2px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+
+/* ─── Status badge classes ─────────────────────────────────────── */
+.badge-pending {
+  background-color: var(--yt-warn-bg);
+  color: var(--yt-warn);
+}
+.badge-approved {
+  background-color: var(--yt-success-bg);
+  color: var(--yt-success);
+}
+.badge-rejected {
+  background-color: var(--yt-error-bg);
+  color: var(--yt-error);
+}
+.badge-progress {
+  background-color: var(--yt-info-bg);
+  color: var(--yt-info);
+}
+.badge-resolved {
+  background-color: var(--yt-surface-variant);
+  color: var(--yt-text-secondary);
+}
+
+/* ─── Focus rings ────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--yt-blue);
+  outline-offset: 2px;
+}
