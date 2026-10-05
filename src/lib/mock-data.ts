@@ -107,7 +107,7 @@ export const ATTENDANCE_SUMMARY: SubjectAttendance[] = [
   { subject: "Data Structures and Applications", type: "TH", attended: 28, total: 32, percentage: 87.5 },
   { subject: "Computer Network Technology", type: "TH", attended: 30, total: 32, percentage: 93.75 },
   { subject: "Programming Concepts and Practices", type: "TH", attended: 11, total: 12, percentage: 91.67 },
-  { subject: "Data Structures and Applications Laboratory", type: "PR", attended: 17, total: 20, percentage: 85.0 },
+  { subject: "Data Structures and Applications Laboratory", type: "PR", attended: 17, total: 20, percentage: 60.0 },
   { subject: "Computer Network Technology Laboratory", type: "PR", attended: 6, total: 6, percentage: 100.0 },
   { subject: "Essential Skills Development Lab", type: "PR", attended: 9, total: 10, percentage: 90.0 },
   { subject: "Professional Development and Career Readiness", type: "PR", attended: 11, total: 11, percentage: 100.0 },
